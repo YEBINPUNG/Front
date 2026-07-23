@@ -88,7 +88,7 @@ export default function Sidebar({
           <span className="sidebar-user-name">{user?.name}</span>
           <span className="sidebar-user-email">{user?.email}</span>
         </div>
-        <button type="button" className="icon-button" onClick={onLogout} title="로그아웃">
+        <button type="button" className="icon-button" onClick={onLogout} title="로그아웃" aria-label="로그아웃">
           {'⏻'}
         </button>
       </div>

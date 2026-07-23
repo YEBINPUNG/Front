@@ -5,9 +5,15 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:4000
 
 let accessToken = null
 let refreshPromise = null
+let onAuthFailure = null
 
 export function setAccessToken(token) {
   accessToken = token
+}
+
+// 인증 갱신이 최종 실패했을 때 호출된다. AuthProvider가 세션을 정리하도록 등록한다.
+export function setAuthFailureHandler(fn) {
+  onAuthFailure = fn
 }
 
 export function getAccessToken() {
@@ -79,7 +85,9 @@ export async function request(path, options = {}) {
       await refreshAccessToken()
       res = await rawRequest(path, options)
     } catch {
-      // refresh도 실패하면 원래의 401 응답을 그대로 던진다.
+      // refresh도 실패하면 세션을 정리하고(로그인 화면으로) 원래의 401을 그대로 던진다.
+      setAccessToken(null)
+      onAuthFailure?.()
     }
   }
   return parseResponse(res)

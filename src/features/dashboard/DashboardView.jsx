@@ -1,6 +1,25 @@
 import ErrorBanner from '../../components/ErrorBanner.jsx'
 import PageHeader from '../../components/PageHeader.jsx'
 import { chipStyle } from '../../constants/ui.js'
+import { dueBadge } from '../../lib/date.js'
+
+function DueRow({ task, dotColor }) {
+  const badge = dueBadge(task.dueDate)
+  return (
+    <li className="dash-row">
+      <span className="dash-row-dot" style={{ background: `var(--accent-${dotColor})` }} />
+      <span className="dash-row-body">
+        <span className="dash-row-title">{task.title}</span>
+        <span className="dash-row-sub">{task.assignee?.name ?? '미배정'}</span>
+      </span>
+      {badge && (
+        <span className="due-badge" style={chipStyle(badge.tone)}>
+          {badge.text}
+        </span>
+      )}
+    </li>
+  )
+}
 
 export default function DashboardView({
   description,
@@ -70,12 +89,9 @@ export default function DashboardView({
       {overdueTasks.length > 0 && (
         <>
           <div className="block-label">마감 초과</div>
-          <ul className="simple-list">
+          <ul className="dash-list">
             {overdueTasks.map((t) => (
-              <li key={t.id}>
-                <span className="task-title">{t.title}</span>
-                <span className="hint-text"> · {t.assignee?.name ?? '미배정'}</span>
-              </li>
+              <DueRow key={t.id} task={t} dotColor="pink" />
             ))}
           </ul>
         </>
@@ -84,12 +100,9 @@ export default function DashboardView({
       {upcomingTasks.length > 0 && (
         <>
           <div className="block-label">임박한 마감 (3일 이내)</div>
-          <ul className="simple-list">
+          <ul className="dash-list">
             {upcomingTasks.map((t) => (
-              <li key={t.id}>
-                <span className="task-title">{t.title}</span>
-                <span className="hint-text"> · {t.assignee?.name ?? '미배정'}</span>
-              </li>
+              <DueRow key={t.id} task={t} dotColor="amber" />
             ))}
           </ul>
         </>

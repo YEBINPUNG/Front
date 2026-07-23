@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { formatDateTime } from '../../lib/date.js'
 import { RISK_LEVEL_LABEL, RISK_STYLES } from '../../constants/ui.js'
 import ErrorBanner from '../../components/ErrorBanner.jsx'
@@ -20,12 +21,24 @@ function formatHistoryValue(field, value, members) {
 }
 
 export default function TaskDetailPanel({ task, members, loading, error, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
   return (
     <div className="detail-overlay" onClick={onClose}>
-      <div className="detail-panel" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="detail-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="태스크 상세"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="detail-panel-header">
           <h2>{task?.title ?? '태스크 상세'}</h2>
-          <button type="button" className="icon-button" onClick={onClose}>
+          <button type="button" className="icon-button" onClick={onClose} aria-label="닫기">
             {'✕'}
           </button>
         </div>

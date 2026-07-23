@@ -1,11 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 import * as authApi from '../api/auth.js'
-import { restoreSession, setAccessToken } from '../api/client.js'
+import { restoreSession, setAccessToken, setAuthFailureHandler } from '../api/client.js'
 import { AuthContext } from './authContextCore.js'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [initializing, setInitializing] = useState(true)
+
+  // 토큰 갱신이 최종 실패하면 세션을 정리해 로그인 화면으로 되돌린다.
+  useEffect(() => {
+    setAuthFailureHandler(() => {
+      setAccessToken(null)
+      setUser(null)
+    })
+    return () => setAuthFailureHandler(null)
+  }, [])
 
   useEffect(() => {
     let cancelled = false

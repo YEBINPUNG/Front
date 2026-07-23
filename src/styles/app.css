@@ -213,7 +213,7 @@
 /* ---------- Page ---------- */
 
 .notion-page {
-  max-width: 760px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 48px;
 
@@ -222,8 +222,9 @@
   }
 }
 
+/* 폭을 통일해 화면 전환 시 콘텐츠 너비가 튀지 않도록 한다. */
 .notion-page-wide {
-  max-width: 1040px;
+  max-width: 960px;
 }
 
 .page-header {
@@ -522,14 +523,20 @@
 }
 
 .stat-card {
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   background: var(--page-bg);
   box-shadow: none;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--accent-border);
+  transform: translateY(-2px);
 }
 
 .stat-card-icon {
@@ -552,6 +559,61 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text-faint);
+}
+
+/* Dashboard due lists */
+.dash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+
+.dash-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--page-bg);
+  border: 1px solid var(--border);
+}
+
+.dash-row-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dash-row-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-row-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-h);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-row-sub {
+  font-size: 12.5px;
+  color: var(--text-faint);
+}
+
+.due-badge {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
 /* ---------- Meeting view ---------- */
@@ -675,9 +737,14 @@
 }
 
 .task-meta {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 6px;
-  flex-wrap: wrap;
+}
+
+/* 담당자(첫 번째 컨트롤)는 한 줄 전체를 차지하고, 날짜/상태가 그 아래 한 줄에 나란히 온다. */
+.task-meta > :first-child {
+  grid-column: 1 / -1;
 }
 
 .task-meta-input {
@@ -688,8 +755,10 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--text);
-  padding: 4px 9px;
-  width: 90px;
+  padding: 5px 9px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 
   &::placeholder {
     color: var(--text-faint);
@@ -919,6 +988,18 @@
 .project-select {
   width: 100%;
   margin: 4px 0 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 10px 34px 10px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-h);
+  background-color: var(--code-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b95a1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  cursor: pointer;
 }
 
 .sidebar-hint {
@@ -1069,7 +1150,13 @@
 }
 
 select.task-meta-input {
-  width: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238b95a1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  background-size: 13px;
 }
 
 /* ---------- Board: title row / detail button ---------- */

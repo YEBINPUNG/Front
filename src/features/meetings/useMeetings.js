@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   approveExtractedTask,
   createMeeting,
@@ -25,6 +25,8 @@ export function useMeetings(projectId, members, onTaskApproved) {
   const [error, setError] = useState('')
   const [extractedTasks, setExtractedTasks] = useState([])
   const [extractedDrafts, setExtractedDrafts] = useState({})
+  // 프로젝트 전환 시 이전 프로젝트의 늦은 목록 응답이 덮어쓰지 않도록 가드한다.
+  const activeProject = useRef(projectId)
 
   const resetDraft = useCallback(() => {
     setActiveMeetingId(null)
@@ -39,10 +41,13 @@ export function useMeetings(projectId, members, onTaskApproved) {
 
   const refreshList = useCallback(async () => {
     if (!projectId) return
+    activeProject.current = projectId
     try {
       const { meetings } = await listMeetings(projectId)
+      if (activeProject.current !== projectId) return
       setMeetingsList(meetings)
     } catch (err) {
+      if (activeProject.current !== projectId) return
       setError(err.message)
     }
   }, [projectId])

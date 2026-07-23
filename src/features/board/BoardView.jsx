@@ -63,6 +63,7 @@ export default function BoardView({
                         className="task-detail-button"
                         onClick={() => onOpenDetail(task.id)}
                         title="상세 보기 (이력/위험도)"
+                        aria-label="상세 보기"
                       >
                         {'\u{2139}'}
                       </button>
@@ -103,7 +104,13 @@ export default function BoardView({
                     </div>
                   </div>
                   {canDelete(task) && (
-                    <button type="button" className="task-delete-button" onClick={() => onDeleteTask(task.id)}>
+                    <button
+                      type="button"
+                      className="task-delete-button"
+                      onClick={() => onDeleteTask(task.id)}
+                      title="태스크 삭제"
+                      aria-label="태스크 삭제"
+                    >
                       {'✕'}
                     </button>
                   )}

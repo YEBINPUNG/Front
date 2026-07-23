@@ -89,13 +89,13 @@ export default function MeetingView({
       {blocks.map((block, i) =>
         canWrite ? (
           <MarkdownBlock
-            key={i}
+            key={`${activeMeetingId ?? 'new'}-${i}`}
             value={block}
             onChange={(e) => onChangeBlock(i, e.target.value)}
-            placeholder="예) ## 안건\n- 논의한 내용을 적어보세요\n- [ ] 결정된 액션 아이템"
+            placeholder={'예) ## 안건\n- 논의한 내용을 적어보세요\n- [ ] 결정된 액션 아이템'}
           />
         ) : (
-          <div className="markdown-preview" key={i}>
+          <div className="markdown-preview" key={`${activeMeetingId ?? 'new'}-${i}`}>
             {renderMarkdown(block)}
           </div>
         )
