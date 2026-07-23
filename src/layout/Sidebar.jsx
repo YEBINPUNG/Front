@@ -22,7 +22,7 @@ export default function Sidebar({
     <aside className="sidebar">
       <div className="workspace-header">
         <span className="workspace-icon">{'\u{1F5C2}\u{FE0F}'}</span>
-        <span className="workspace-name">회고 AI 매니저</span>
+        <span className="workspace-name">회고록쨩</span>
       </div>
 
       <div className="nav-section-label">프로젝트</div>

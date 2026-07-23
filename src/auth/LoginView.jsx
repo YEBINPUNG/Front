@@ -42,7 +42,7 @@ export default function LoginView() {
   return (
     <div className="auth-shell">
       <div className="auth-card">
-        <div className="auth-logo">{'\u{1F5C2}\u{FE0F}'} 회고 AI 매니저</div>
+        <div className="auth-logo">{'\u{1F5C2}\u{FE0F}'} 회고록쨩</div>
         <h1 className="auth-title">{mode === 'login' ? '로그인' : '회원가입'}</h1>
 
         <form className="auth-form" onSubmit={handleSubmit}>
