@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# 백엔드 API 참고용으로 로컬에 클론한 저장소 (별도 레포, 커밋 대상 아님)
+Back-server/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
